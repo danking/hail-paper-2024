@@ -1,0 +1,3 @@
+TableMapRows(!t1) { (%g, %row) =>
+  SelectFields(%row) [(key a b)]
+}

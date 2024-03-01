@@ -1,0 +1,3 @@
+!t1_1 = TableKeyBy(!t1) [(a), False]
+!t2_1 = TableKeyBy(!t2) [(b), False]
+TableJoin(!t1_1, !t) [X, 1]

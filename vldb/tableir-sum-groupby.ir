@@ -1,0 +1,7 @@
+TableKeyByAndAggregate(!t1) [None, 50] { (%g, %row) =>
+  !1 = GetField(%row) [a]
+  !2 = ApplyAggOp(!1) [Sum]
+  MakeStruct(a: !2)
+} { (%g2, %row2) =>
+  SelectFields(%row2) [(b)]
+}

@@ -1,0 +1,18 @@
+----------------------------------------
+Global fields:
+    None
+----------------------------------------
+Column fields:
+    'sample_id': str
+    'sample_group': int32
+----------------------------------------
+Row fields:
+    'locus': locus<GRCh37>
+    'alleles': array<str>
+----------------------------------------
+Entry fields:
+    'GT': call
+----------------------------------------
+Column key: ['sample_id']
+Row key: ['locus', 'alleles']
+----------------------------------------

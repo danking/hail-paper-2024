@@ -1,0 +1,324 @@
+%%% -*-BibTeX-*-
+%%% Do NOT edit. File created by BibTeX with style
+%%% ACM-Reference-Format-Journals [18-Jan-2012].
+
+\begin{thebibliography}{20}
+
+%%% ====================================================================
+%%% NOTE TO THE USER: you can override these defaults by providing
+%%% customized versions of any of these macros before the \bibliography
+%%% command.  Each of them MUST provide its own final punctuation,
+%%% except for \shownote{}, \showDOI{}, and \showURL{}.  The latter two
+%%% do not use final punctuation, in order to avoid confusing it with
+%%% the Web address.
+%%%
+%%% To suppress output of a particular field, define its macro to expand
+%%% to an empty string, or better, \unskip, like this:
+%%%
+%%% \newcommand{\showDOI}[1]{\unskip}   % LaTeX syntax
+%%%
+%%% \def \showDOI #1{\unskip}           % plain TeX syntax
+%%%
+%%% ====================================================================
+
+\ifx \showCODEN    \undefined \def \showCODEN     #1{\unskip}     \fi
+\ifx \showDOI      \undefined \def \showDOI       #1{#1}\fi
+\ifx \showISBNx    \undefined \def \showISBNx     #1{\unskip}     \fi
+\ifx \showISBNxiii \undefined \def \showISBNxiii  #1{\unskip}     \fi
+\ifx \showISSN     \undefined \def \showISSN      #1{\unskip}     \fi
+\ifx \showLCCN     \undefined \def \showLCCN      #1{\unskip}     \fi
+\ifx \shownote     \undefined \def \shownote      #1{#1}          \fi
+\ifx \showarticletitle \undefined \def \showarticletitle #1{#1}   \fi
+\ifx \showURL      \undefined \def \showURL       {\relax}        \fi
+% The following commands are used for tagged output and should be
+% invisible to TeX
+\providecommand\bibfield[2]{#2}
+\providecommand\bibinfo[2]{#2}
+\providecommand\natexlab[1]{#1}
+\providecommand\showeprint[2][]{arXiv:#2}
+
+\bibitem[Abifadel et~al\mbox{.}(2003)]%
+        {Abifadel2003-lb}
+\bibfield{author}{\bibinfo{person}{Marianne Abifadel},
+  \bibinfo{person}{Mathilde Varret}, \bibinfo{person}{Jean-Pierre Rab{\`e}s},
+  \bibinfo{person}{Delphine Allard}, \bibinfo{person}{Khadija Ouguerram},
+  \bibinfo{person}{Martine Devillers}, \bibinfo{person}{Corinne Cruaud},
+  \bibinfo{person}{Suzanne Benjannet}, \bibinfo{person}{Louise Wickham},
+  \bibinfo{person}{Dani{\`e}le Erlich}, \bibinfo{person}{Aur{\'e}lie
+  Derr{\'e}}, \bibinfo{person}{Ludovic Vill{\'e}ger}, \bibinfo{person}{Michel
+  Farnier}, \bibinfo{person}{Isabel Beucler}, \bibinfo{person}{Eric Bruckert},
+  \bibinfo{person}{Jean Chambaz}, \bibinfo{person}{Bernard Chanu},
+  \bibinfo{person}{Jean-Michel Lecerf}, \bibinfo{person}{Gerald Luc},
+  \bibinfo{person}{Philippe Moulin}, \bibinfo{person}{Jean Weissenbach},
+  \bibinfo{person}{Annick Prat}, \bibinfo{person}{Michel Krempf},
+  \bibinfo{person}{Claudine Junien}, \bibinfo{person}{Nabil~G Seidah}, {and}
+  \bibinfo{person}{Catherine Boileau}.} \bibinfo{year}{2003}\natexlab{}.
+\newblock \showarticletitle{Mutations in {PCSK9} cause autosomal dominant
+  hypercholesterolemia}.
+\newblock \bibinfo{journal}{\emph{Nat. Genet.}} \bibinfo{volume}{34},
+  \bibinfo{number}{2} (\bibinfo{date}{June} \bibinfo{year}{2003}),
+  \bibinfo{pages}{154--156}.
+\newblock
+
+
+\bibitem[Berner({[n.\,d.]})]%
+        {openai2500}
+\bibfield{author}{\bibinfo{person}{Christopher Berner}.}
+  \bibinfo{year}{[n.\,d.]}\natexlab{}.
+\newblock \bibinfo{title}{Scaling Kubernetes to 2,500 nodes}.
+  (\bibinfo{year}{[n.\,d.]}).
+\newblock
+\urldef\tempurl%
+\url{https://openai.com/research/scaling-kubernetes-to-2500-nodes}
+\showURL{%
+\tempurl}
+
+
+\bibitem[Blumenthal et~al\mbox{.}(1999)]%
+        {pcsk9-insights}
+\bibfield{author}{\bibinfo{person}{Roger~S. Blumenthal},
+  \bibinfo{person}{Seth~S. Martin}, {and} \bibinfo{person}{Parag~H. Joshi}.}
+  \bibinfo{year}{1999}\natexlab{}.
+\newblock \bibinfo{booktitle}{\emph{The fascinating story of PCSK9 inhibition:
+  Insights and perspective from ACC}}.
+\newblock
+\urldef\tempurl%
+\url{https://www.healio.com/news/cardiology/20150821/10_3928_1081_597x_20140101_08_1343305}
+\showURL{%
+\tempurl}
+
+
+\bibitem[Breddels and Veljanoski(2018)]%
+        {vaex}
+\bibfield{author}{\bibinfo{person}{Maarten~A Breddels} {and}
+  \bibinfo{person}{Jovan Veljanoski}.} \bibinfo{year}{2018}\natexlab{}.
+\newblock \showarticletitle{Vaex: big data exploration in the era of gaia}.
+\newblock \bibinfo{journal}{\emph{Astronomy \& Astrophysics}}
+  \bibinfo{volume}{618} (\bibinfo{year}{2018}), \bibinfo{pages}{A13}.
+\newblock
+
+
+\bibitem[Brun and Rademakers(1997)]%
+        {root}
+\bibfield{author}{\bibinfo{person}{Rene Brun} {and} \bibinfo{person}{Fons
+  Rademakers}.} \bibinfo{year}{1997}\natexlab{}.
+\newblock \showarticletitle{ROOT — An object oriented data analysis
+  framework}.
+\newblock \bibinfo{journal}{\emph{Nuclear Instruments and Methods in Physics
+  Research Section A: Accelerators, Spectrometers, Detectors and Associated
+  Equipment}} \bibinfo{volume}{389}, \bibinfo{number}{1}
+  (\bibinfo{year}{1997}), \bibinfo{pages}{81--86}.
+\newblock
+\showISSN{0168-9002}
+\urldef\tempurl%
+\url{https://doi.org/10.1016/S0168-9002(97)00048-X}
+\showDOI{\tempurl}
+\newblock
+\shownote{New Computing Techniques in Physics Research V}.
+
+
+\bibitem[Caetano-Anolles({[n.\,d.]})]%
+        {gvcf}
+\bibfield{author}{\bibinfo{person}{Derek Caetano-Anolles}.}
+  \bibinfo{year}{[n.\,d.]}\natexlab{}.
+\newblock \bibinfo{title}{GVCF - Genomic Variant Call Format}.
+  (\bibinfo{year}{[n.\,d.]}).
+\newblock
+\urldef\tempurl%
+\url{https://gatk.broadinstitute.org/hc/en-us/articles/360035531812-GVCF-Genomic-Variant-Call-Format}
+\showURL{%
+\tempurl}
+
+
+\bibitem[for Genomics \&~Health({[n.\,d.]})]%
+        {vcf4.3}
+\bibfield{author}{\bibinfo{person}{Global~Alliance for Genomics \&~Health}.}
+  \bibinfo{year}{[n.\,d.]}\natexlab{}.
+\newblock \bibinfo{title}{The Variant Call Format Specification VCFv4.3 and
+  BCFv2.2}.  (\bibinfo{year}{[n.\,d.]}).
+\newblock
+\urldef\tempurl%
+\url{https://samtools.github.io/hts-specs/VCFv4.3.pdf}
+\showURL{%
+\tempurl}
+
+
+\bibitem[Foundation({[n.\,d.]})]%
+        {datafusion}
+\bibfield{author}{\bibinfo{person}{Apache Foundation}.}
+  \bibinfo{year}{[n.\,d.]}\natexlab{}.
+\newblock \bibinfo{title}{Apache Arrow DataFusion}.
+  (\bibinfo{year}{[n.\,d.]}).
+\newblock
+\urldef\tempurl%
+\url{https://arrow.apache.org/datafusion/}
+\showURL{%
+\tempurl}
+
+
+\bibitem[Graur et~al\mbox{.}(2021)]%
+        {evaluating-query-languages-and-systems-for-hep}
+\bibfield{author}{\bibinfo{person}{Dan Graur}, \bibinfo{person}{Ingo
+  M\"{u}ller}, \bibinfo{person}{Mason Proffitt}, \bibinfo{person}{Ghislain
+  Fourny}, \bibinfo{person}{Gordon~T. Watts}, {and} \bibinfo{person}{Gustavo
+  Alonso}.} \bibinfo{year}{2021}\natexlab{}.
+\newblock \showarticletitle{Evaluating Query Languages and Systems for
+  High-Energy Physics Data}.
+\newblock \bibinfo{journal}{\emph{Proc. VLDB Endow.}} \bibinfo{volume}{15},
+  \bibinfo{number}{2} (\bibinfo{date}{oct} \bibinfo{year}{2021}),
+  \bibinfo{pages}{154–168}.
+\newblock
+\showISSN{2150-8097}
+\urldef\tempurl%
+\url{https://doi.org/10.14778/3489496.3489498}
+\showDOI{\tempurl}
+
+
+\bibitem[Hall(2013)]%
+        {Hall2013-us}
+\bibfield{author}{\bibinfo{person}{Stephen~S Hall}.}
+  \bibinfo{year}{2013}\natexlab{}.
+\newblock \showarticletitle{Genetics: a gene of rare effect}.
+\newblock \bibinfo{journal}{\emph{Nature}} \bibinfo{volume}{496},
+  \bibinfo{number}{7444} (\bibinfo{date}{April} \bibinfo{year}{2013}),
+  \bibinfo{pages}{152--155}.
+\newblock
+
+
+\bibitem[Hashicorp({[n.\,d.]})]%
+        {hashicorp1m}
+\bibfield{author}{\bibinfo{person}{Hashicorp}.}
+  \bibinfo{year}{[n.\,d.]}\natexlab{}.
+\newblock \bibinfo{title}{The Million Container Challenge}.
+  (\bibinfo{year}{[n.\,d.]}).
+\newblock
+\urldef\tempurl%
+\url{https://www.hashicorp.com/c1m}
+\showURL{%
+\tempurl}
+
+
+\bibitem[Hey(2009)]%
+        {fourthparadigm-chapter-1}
+\bibfield{author}{\bibinfo{person}{Tony Hey}.} \bibinfo{year}{2009}\natexlab{}.
+\newblock \bibinfo{booktitle}{\emph{The fourth paradigm: Data-intensive
+  scientific discovery}}.
+\newblock \bibinfo{publisher}{Microsoft Research}, Chapter~1.
+\newblock
+
+
+\bibitem[Laboratories({[n.\,d.]})]%
+        {hydrogen}
+\bibfield{author}{\bibinfo{person}{Lawrence Livermore~National Laboratories}.}
+  \bibinfo{year}{[n.\,d.]}\natexlab{}.
+\newblock \bibinfo{title}{Hydrogen}.  (\bibinfo{year}{[n.\,d.]}).
+\newblock
+\urldef\tempurl%
+\url{https://github.com/LLNL/Elemental}
+\showURL{%
+\tempurl}
+
+
+\bibitem[Neale({[n.\,d.]})]%
+        {bge}
+\bibfield{author}{\bibinfo{person}{Benjamin~M Neale}.}
+  \bibinfo{year}{[n.\,d.]}\natexlab{}.
+\newblock \bibinfo{title}{Blended-Genome Exome}.  (\bibinfo{year}{[n.\,d.]}).
+\newblock
+
+
+\bibitem[Pedreira et~al\mbox{.}(2022)]%
+        {velox}
+\bibfield{author}{\bibinfo{person}{Pedro Pedreira}, \bibinfo{person}{Orri
+  Erling}, \bibinfo{person}{Masha Basmanova}, \bibinfo{person}{Kevin Wilfong},
+  \bibinfo{person}{Laith Sakka}, \bibinfo{person}{Krishna Pai},
+  \bibinfo{person}{Wei He}, {and} \bibinfo{person}{Biswapesh Chattopadhyay}.}
+  \bibinfo{year}{2022}\natexlab{}.
+\newblock \showarticletitle{Velox: Meta's Unified Execution Engine}.
+\newblock \bibinfo{journal}{\emph{Proc. VLDB Endow.}} \bibinfo{volume}{15},
+  \bibinfo{number}{12} (\bibinfo{date}{aug} \bibinfo{year}{2022}),
+  \bibinfo{pages}{3372–3384}.
+\newblock
+\showISSN{2150-8097}
+\urldef\tempurl%
+\url{https://doi.org/10.14778/3554821.3554829}
+\showDOI{\tempurl}
+
+
+\bibitem[Petersohn et~al\mbox{.}({[n.\,d.]})]%
+        {modin}
+\bibfield{author}{\bibinfo{person}{Devin Petersohn}, \bibinfo{person}{Stephen
+  Macke}, \bibinfo{person}{Doris Xin}, \bibinfo{person}{William Ma},
+  \bibinfo{person}{Doris Lee}, \bibinfo{person}{Xiangxi Mo},
+  \bibinfo{person}{Joseph~E Gonzalez}, \bibinfo{person}{Joseph~M Hellerstein},
+  \bibinfo{person}{Anthony~D Joseph}, {and} \bibinfo{person}{Aditya
+  Parameswaran}.} \bibinfo{year}{[n.\,d.]}\natexlab{}.
+\newblock \showarticletitle{Towards Scalable Dataframe Systems}.
+\newblock \bibinfo{journal}{\emph{Proceedings of the VLDB Endowment}}
+  \bibinfo{volume}{13}, \bibinfo{number}{11} (\bibinfo{year}{[n.\,d.]}).
+\newblock
+
+
+\bibitem[Poulson et~al\mbox{.}(2013)]%
+        {elemental}
+\bibfield{author}{\bibinfo{person}{Jack Poulson}, \bibinfo{person}{Bryan
+  Marker}, \bibinfo{person}{Robert~A. van~de Geijn}, \bibinfo{person}{Jeff~R.
+  Hammond}, {and} \bibinfo{person}{Nichols~A. Romero}.}
+  \bibinfo{year}{2013}\natexlab{}.
+\newblock \showarticletitle{Elemental: A New Framework for Distributed Memory
+  Dense Matrix Computations}.
+\newblock \bibinfo{journal}{\emph{ACM Trans. Math. Softw.}}
+  \bibinfo{volume}{39}, \bibinfo{number}{2}, Article \bibinfo{articleno}{13}
+  (\bibinfo{date}{feb} \bibinfo{year}{2013}), \bibinfo{numpages}{24}~pages.
+\newblock
+\showISSN{0098-3500}
+\urldef\tempurl%
+\url{https://doi.org/10.1145/2427023.2427030}
+\showDOI{\tempurl}
+
+
+\bibitem[Raasveldt and M\"{u}hleisen(2019)]%
+        {duckdb}
+\bibfield{author}{\bibinfo{person}{Mark Raasveldt} {and}
+  \bibinfo{person}{Hannes M\"{u}hleisen}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{DuckDB: An Embeddable Analytical Database}. In
+  \bibinfo{booktitle}{\emph{Proceedings of the 2019 International Conference on
+  Management of Data}} (Amsterdam, Netherlands) \emph{(\bibinfo{series}{SIGMOD
+  '19})}. \bibinfo{publisher}{Association for Computing Machinery},
+  \bibinfo{address}{New York, NY, USA}, \bibinfo{pages}{1981–1984}.
+\newblock
+\showISBNx{9781450356435}
+\urldef\tempurl%
+\url{https://doi.org/10.1145/3299869.3320212}
+\showDOI{\tempurl}
+
+
+\bibitem[Sigler and Chess({[n.\,d.]})]%
+        {openai7500}
+\bibfield{author}{\bibinfo{person}{Eric Sigler} {and} \bibinfo{person}{Benjamin
+  Chess}.} \bibinfo{year}{[n.\,d.]}\natexlab{}.
+\newblock \bibinfo{title}{Scaling Kubernetes to 7,500 nodes}.
+  (\bibinfo{year}{[n.\,d.]}).
+\newblock
+\urldef\tempurl%
+\url{https://openai.com/research/scaling-kubernetes-to-7500-nodes}
+\showURL{%
+\tempurl}
+
+
+\bibitem[Smith and van~de Geijn(2019)]%
+        {momms}
+\bibfield{author}{\bibinfo{person}{Tyler~M Smith} {and}
+  \bibinfo{person}{Robert~A van~de Geijn}.} \bibinfo{year}{2019}\natexlab{}.
+\newblock \showarticletitle{The MOMMS family of matrix multiplication
+  algorithms}.
+\newblock \bibinfo{journal}{\emph{arXiv preprint arXiv:1904.05717}}
+  (\bibinfo{year}{2019}).
+\newblock
+\urldef\tempurl%
+\url{https://arxiv.org/pdf/1904.05717}
+\showURL{%
+\tempurl}
+
+
+\end{thebibliography}

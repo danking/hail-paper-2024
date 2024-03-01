@@ -1,0 +1,2 @@
+SELECT SUM(a) AS a
+GROUP BY b

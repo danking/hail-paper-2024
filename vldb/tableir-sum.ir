@@ -1,0 +1,4 @@
+TableAggregate(!t1) { (%g, %row) =>
+  !1 = GetField(%row) [a]
+  ApplyAggOp(!1) [Sum]
+}

@@ -1,0 +1,1 @@
+PRIMARY KEY k1, k2

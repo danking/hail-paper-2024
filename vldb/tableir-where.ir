@@ -1,0 +1,7 @@
+TableFilter(!t1) { (%g, %row) =>
+  !1 = GetField(%row) [a]
+  !2 = GetField(%row) [b]
+  !3 = ApplyComparisonOp(!1, !2) [EQ]
+  !false = False
+  Coalesce(!3, !false)
+}

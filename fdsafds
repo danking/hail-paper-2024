@@ -1,0 +1,1102 @@
+
+\pagestyle{plain}
+
+\title{\rmfamily\normalfont\spacedallcaps{The Hail System: Computing for Data-Intensive Science}}
+
+\author[4]{John Compitello}
+\author[1,2,3]{Jacqueline I. Goldstein}
+\author[1,2,3]{Daniel Goldstein}
+\author[1,2,3]{Dan King}
+\author[1,2,3]{Timothy Poterba}
+\author[1,2,3]{Iris Rademacher}
+\author[1,2,3]{Patrick Schultz}
+\author[1,2,3]{Christopher Vittal}
+\author[4]{Arcturus Wang}
+\author[1,2,3]{Edmund Higham}
+\author[1,2,3]{Konrad Karczewski}
+\author[1,2,3]{Cotton Seed}
+\author[1,2,3]{Benjamin M Neale}
+
+\affil[1]{Program in Medical and Population Genetics\\ Broad Institute of MIT and Harvard\\ Cambridge, MA, USA.}
+\affil[2]{Analytic and Translational Genetics Unit\\ Massachusetts General Hospital\\ Boston, MA, USA.}
+\affil[3]{Stanley Center for Psychiatric Research\\ Broad Institute of MIT and Harvard\\ Cambridge, MA, USA.}
+\affil[4]{TBD}
+
+\renewcommand\Authfont{\scshape\small}
+\renewcommand\Affilfont{\itshape\scriptsize}
+%% \author{
+%%   \spacedlowsmallcaps{Daniel King} \and
+%%   \spacedlowsmallcaps{John Compitello} \and
+%%   \spacedlowsmallcaps{Jacqueline I. Goldstein} \and
+%%   \spacedlowsmallcaps{Daniel Goldstein} \and
+%%   \spacedlowsmallcaps{Konrad Karczewski} \and
+%%   \spacedlowsmallcaps{Timothy Poterba} \and
+%%   \spacedlowsmallcaps{Iris Rademacher} \and
+%%   \spacedlowsmallcaps{Patrick Schultz} \and
+%%   \spacedlowsmallcaps{Christopher Vittal} \and
+%%   \spacedlowsmallcaps{Arcturus Wang} \and
+%%   \spacedlowsmallcaps{Cotton Seed} \and
+%%   \spacedlowsmallcaps{Benjamin M Neale}
+%% }
+\date{\spacedlowsmallcaps{December 2022}}
+\newcommand{\tableheadline}[1]{\spacedlowsmallcaps{#1}}
+\maketitle
+\begin{abstract}
+    Abstract.
+\end{abstract}
+
+\tableofcontents
+
+\section{Introduction}
+
+\nocite{*}
+\addtocontents{toc}{\protect\vspace{\beforebibskip}}
+\addcontentsline{toc}{section}{\refname}
+\printbibliography
+
+\subsection{Describe genomics data production, secondary and tertiary data types.}
+
+    - GVCFs as a sparse vector of genotypes
+
+    - VDS as a column-sparse matrix of genotypes
+
+    - Our core data type is a matrix of genotypes and per-genotype quality metadata
+
+    - A human genome has 3 billion locations, called loci, across 24 contigs (22 pairs of autosomes, one pair of sex chromosomes, and the mitochondrial DNA).
+
+      - A location or locus is identified by contig and 1-indexed position on the contig.
+
+      - The human reference genome is, in essence, a 3 billion character string in the language {A, G, T, C}.
+
+      - A sampled human genome is a sparse vector of genotypes and sequencing metadata.
+
+      - In human beings, a genotype is a tuple of one or more alleles. Many genomic configurations are compatible with human life but typically and in essence: genotypes on the autosomes are pairs of alleles, genotypes elsewhere consist of a single allele.
+
+      - Sequencing metadata stores distributional information about the sequencing process. For example: the number of observations made of this locus (depth, DP), the number of observations of each allele at this locus (allelic depth, AD), and the likelihood of each genotype at this locus given the observations (Phred-scale log likelihood, PL).
+
+      - A sampled human genome is a vector containing two data types:
+
+        - Reference blocks. This is effectively run-length encoded quality metadata for a region in which every genotype is homozygous reference (all alleles in the genotype are the reference allele).
+
+        - Variant sites. Any locus at which a sample has a non-reference genotype (a genotype for which any component allele is not the reference allele at this locus).
+
+      - To a statistician, each person is a sample and each locus on the human genome is a feature.
+
+    - Exome sequencing measures a set of regions of the human genome that cover all the protein-coding genes.
+
+    - The term sequence generically refers to a genome or an exome.
+
+\subsection{Describe tertiary genomics analysis, reference "Evaluating Query Languages and Systems for High-Energy Physics Data" https://www.vldb.org/pvldb/vol15/p154-muller.pdf}
+
+    - Combine N sequences (columns) into a row-oriented matrix
+
+    - Quality control: identify a set of high quality genotypes, high quality variants, and unrelated samples, by way of per-genotype filters, per-variant filters based on aggregations, per-sample filters based on aggregations, and per-sample filters based on "relatedness" matrix (a kind of weighted covariance matrix)
+
+    - Annotation: add sample and variant metadata to the matrix for use as regression covariates, as filters, or as group keys.
+
+    - Regression analyses:
+
+      - Per-variant linear, logistic, \& poisson regression
+
+      - Per-variant-group linear, logistic, poisson regression and "kernel" methods
+
+      - Mixed models, per-variant or per-variant-group, which require a GRM
+
+    - Regressions and aggregations are often groups in arbitrary ways: variant effect on protein, variant frequency bin, sample genetic ancestry group, etc.
+
+    - Lots of extant tools written in a litany of languages (Java, C, C++, Perl, Python, R, etc.) that want to be invoked on partitions of the data.
+
+    - Visualization of 1M (per-sample) to 1B (per variant) points.
+
+    - Scientists are very cost-sensitive.
+
+    - Restartability is key.
+
+\subsection{Extremely brief overview of the Hail System and how it addresses these problems.}
+
+\subsection{Identify the unique contributions of the Hail System.}
+
+    - We expect Hail to lose on the common benchmarks. DuckDB, Polars, Velox, and DataFusion, have better storage systems and benefit from vectorized processing. Sophisticated sorting tools will win the sort benchmarks. Spark, Ray, and Dask, will likely beat Hail on TPC-H or TPC-DS.
+
+    - What, then, motivates Hail? We echo the experiences of the high-energy physics community: so-called "general-purpose" query systems seem to have poor performance on queries common in science.
+
+\section{Background and Related Work}
+
+\subsection{Reference OpenAI’s blog posts on the challenge of scaling kubernetes}
+
+\subsection{What is the cloud?}
+
+    - SPOT INSTANCES and ELASTICITY!
+
+\subsection{Refs}
+
+    - File systems / blob storage
+
+      - The Google File System (SOSP ‘03)
+
+      - Pocket (OSDI 18)
+
+    - Serverless
+
+      - "Occupy the cloud: distributed computing for the 99%." (SoCC 2017)
+
+    - Query languages
+
+      - "Functional Collection Programming with Semi-ring Dictionaries" (OOPSLA 2023)
+
+    - Vectorized processing versus Compilation
+
+      - "Photon: A fast query engine for lakehouse systems." SIGMOD 2022.
+
+      - "Everything You Always Wanted to Know About Compiled and Vectorized Queries But Were Afraid to Ask" (VLDB 2018)
+
+    - Query systems
+
+      - "Parallel Database Systems: the future of high performance database systems" DeWitt \& Gray (CACM 92)
+
+      - MapReduce 2004
+
+      - BigTable 2006
+
+      - Dryad (EuroSys ‘07)
+
+      - "Interpreting the Data: Parallel Analysis with Sawzall" 2006
+
+      - Dremel(https://static.googleusercontent.com/media/research.google.com/en//pubs/archive/36632.pdf) VLDB 2010
+
+      - "Resilient Distributed Datasets: A Fault-Tolerant Abstraction for In-Memory Cluster Computing" (NSDI 12)
+
+      - "The Datacenter as Computer" 2013
+
+      - "Ray: A Distributed Framework for Emerging AI Applications" (OSDI ‘18)
+
+    - Relational algebra on matrices
+
+      - SciDB (SSDBM 2011)
+
+      - TileDB (VLDB 2016)
+
+      - GenomicsDB
+
+    - Linear algebra
+
+      - Elemental ACM Transactions on Mathematical Software ‘13.
+
+      - numpywren (SoCC '20)
+
+      - "The MOMMS Family of Matrix Multiplication Algorithms" SC ‘19
+
+    - Miscellaneous
+
+      - "Jim Gray on eScience: A Transformed Scientific Method" 2007(https://languagelog.ldc.upenn.edu/myl/JimGrayOnE-Science.pdf)
+
+      - "Science in an exponential world" Szalay \& Gray Nature Commentary 06.
+
+      - "Scalability but at what COST?"(https://www.usenix.org/system/files/conference/hotos15/hotos15-paper-mcsherry.pdf) (HotOS 15)
+
+    - Shuffling
+
+      - Hyper Dimension Shuffle: Efficient Data Repartition at Petabyte Scale in SCOPE (VDLB 19)
+
+\subsection{Could I cite Eddie’s Click paper?}
+
+    - Dryad has this to say:
+      - Click A similar approach is adopted by the Click modular router 27. The technique used to encapsulate multiple Dryad vertices in a single large vertex, described in section 3.4, is similar to the method used by Click to group the elements (equivalent of Dryad vertices) in a single process. However, Click is always single-threaded, while Dryad encapsulated vertices are designed to take advantage of multiple CPU cores that may be available.
+
+    - "Click the Modular Router" Kohler et al. TOCS 2000
+
+\subsection{Need to assess each workflow and serverless engine to determine for each one if its workflow, serverless, or workflow-and-serverless.}
+
+\subsection{Related work}
+
+    - The five engines: VM, Severless, Workflow, Relational, Linear.
+
+    - Serverless. AWS Fargate, Google Cloud Run, Azure Functions, and Hashicorp Nomad
+
+    - Workflow. Nextflow, Cromwell, and Apache Airflow.
+
+    - Relational. Apache Spark, BigQuery, Amazon Athena, ROOT2, pandas, and RDBMSes.
+
+    - Linear. Numpywren, and Elemental.
+
+    - Relational-on-matrices. SciDB, TileDB, GenomicsDB.
+
+\section{Terminology}
+
+\subsection{Big data type is a partitioned data type. Assumed to be too large to fit in memory on a machine.}
+
+\subsection{Small data type is assumed to fit in memory on a machine.}
+
+\subsection{A VM is a multi-core computer, with caches, volatile memory, and a network connection.}
+
+\subsection{ht is a name bound to a Table}
+
+\subsection{mt is a name bound to a Matrix Table}
+
+\subsection{bm is a name bound to a Block Matrix}
+
+\subsection{DK: typeset version should typographically distinguish between small \& big, python vs IR vs semantics}
+
+\section{Hail Query}
+
+\subsection{Data access is everything}
+
+    - ORC \& Parquet started ‘13, Arrow ‘16
+
+    - Hail relied on Parquet from 2015 to 2017, but migrated off it due to code generation issues. (<https://issues.apache.org/jira/browse/SPARK-18492>, <https://issues.apache.org/jira/browse/SPARK-16845>) When using more than 10,000 columns (it is not uncommon to have a very large number of variant (row) metadata columns), code generation issues arise in Spark’s parquet interface, on which we relied at the time. Due to these issues and a desire to not be at the mercy of third parties, we developed our own format.
+
+\subsection{Hail DataFrame API/DSL}
+
+    - Three partitioned or "big" datatypes: Tables, Matrix Tables, Block Matrix
+
+    - A litany of small datatypes: int32, int64, float32, float64, locus<GRCh37>, array<...>, set<...>, dict<..., …>, interval<...>, etc.
+
+      - Every type includes the unique missing value.
+
+    - Hail datatypes are all immutable.
+
+    - The Table API roughly matches SQL:
+
+      - Select => select, annotate, transmute
+
+        - Annotate preserves unmentioned fields
+
+        - Transmute preserves unmentioned fields and drops mentioned fields
+
+      - Where => filter
+
+      - Join =>
+
+        - Hail uses the term "left join, distinct" to refer to a join where the number of rows in the result equals the number of rows in the left table. This default is useful because scientists rarely want to duplicate rows of genomic data (increased statistical tests!) and frequently assume the right-hand-side of a join has one row per key.\
+          In SQL this might be written as follows assuming the dialect supports a "FIRST" aggregation which returns the first value in a group\
+          `select *
+          from tbl1
+          left join (
+              select key1, key2, …, FIRST(col1, …)
+              from tbl2
+              group by key1, key2, …
+          ) as tbl2 on tbl1.key1 = tbl2.key1 AND …
+          `
+
+        - Dictionary index syntax (left join, distinct):\
+          ht1.select(... ht2 ht1.key …)
+
+        - Explicit index syntax (left join):
+
+          - Distinct:\
+            ht1.select(... ht2.index(ht1.key, all\_matches=False))
+
+          - Not distinct:\
+            ht1.select(... ht2.index(ht1.key, all\_matches=True))
+
+        - Explicit join syntax
+
+          - Inner ht1.join(ht2, how=’inner’)
+
+          - Left ht1.join(ht2, how=’left’)
+
+          - Right ht1.join(ht2, how=’right’)
+
+          - Outer ht1.join(ht2, how=’outer’)
+
+      - Sum, count, … =>
+
+        - Without a group: aggregate(hl.agg.sum(...), hl.agg.count(), …)
+
+        - With a group: group\_by(...).aggregate(hl.agg.sum(...), hl.agg.count(), …)
+
+      - Order by => order\_by
+
+      - Limit => head
+
+      - Primary key => key\_by
+
+      - Having is just filter on the table returned by group\_by-aggregate
+
+    - The MatrixTable API generalizes the Table API to two orthogonal keys/axes:
+
+      - Global fields are keyed by nothing, row fields are keyed by the row key, column fields are keyed by the column key, and entries are keyed by the row key and the column key.
+
+      - Select => select\_rows, select\_cols, select\_entries
+
+      - Filter => filter\_rows, filter\_cols, filter\_entries
+
+        - Filter\_entries is a confusing part of the Hail API.
+
+        - When a row or column is filtered, the corresponding key is removed
+
+        - When an entry is filtered, the corresponding keys may still have other values so they cannot be removed. The matrix table now has "holes".
+
+        - A filtered entry and an entry whose field values are all missing are hard to distinguish.
+
+          - Unfortunately, the printed form of an entry field whose value is missing and the entry field of a filtered entry are the same: NA.
+
+          - Filtered entries are not provided to aggregations whereas entries with missing values are. Consider a 2x2 matrix:\
+            `Struct(x=1)  X
+            Struct(x=NA) Struct(x=4)
+            `X indicates a filtered entry. NA indicates the unique missing value. hl.agg.count on the entries returns three. hl.agg.sum(mt.prod) returns 5 because the missing value is treated by the sum aggregator as a zero. Likewise, hl.agg.mean(mt.prod) returns 2.5 because the missing value is treated as a zero. Not all aggregators treat the missing value as a zero, for example hl.agg.collect\_as\_set.
+
+          - Filtered entries are used by scientists to indicate values that should be treated as "not observed". Consider the case of genome sequencing. A genotype is derived from measurements called "reads". Each read is evidence of some particular alleles, usually just one. If we believe that, for a particular genotype, all the reads are invalid due to some technical error (such as contamination), we would filter that entry. In contrast, if we have successfully collected reads for a given entry but the collected reads do not confidently support any genotype, we would mark the genotype as missing but keep the entry in the dataset. In the former case, we remove an observation (which helps limit multiple testing) whereas in the latter case we keep the observation and choose to model missing data in our downstream statistical methods.
+
+      - Join. Matrix tables have a combinatorial explosion of joins.
+
+        - Table and matrix table joins
+
+          - By row key:\
+            mt.select\_rows(... ht\mt.row\_key ...)\
+            mt.select\_entries(... ht\mt.row\_key ...)
+
+          - By col key:\
+            mt.select\_cols(... ht\mt.col\_key …)\
+            mt.select\_entries(... ht\mt.col\_key …)
+
+        - Matrix-matrix join
+
+          - Left join, distinct:\
+            mt1.select\_entries(... mt2\mt.row\_key, mt.col\_key …)
+
+          - Outer join:\
+            hl.experimental.full\_outer\_join\_mt(mt1, mt2)
+
+          - Unimplemented:
+
+            - Inner join
+
+            - Left join, not-distinct
+
+            - Right join, distinct
+
+            - Right join, not-distinct
+
+            - All the above joins use the same join type for both axes, but there is also a combinatorial number of other join types:
+
+              - Inner-row left-distinct-col
+
+              - Inner-row left-not-distinct-col
+
+              - Inner-row right-distinct-col
+
+              - Inner-row right-not-distinct-col
+
+              - Inner-row outer-col
+
+              - Left-distinct-row inner-col
+
+              - Left-distinct-row right-distinct-col
+
+              - Left-distinct-row right-not-distinct-col
+
+              - Left-distinct-row outer-col
+
+              - Left-not-distinct-row inner-col
+
+              - Left-not-distinct-row right-distinct-col
+
+              - Left-not-distinct-row right-not-distinct-col
+
+              - Left-not-distinct-row outer-col
+
+              - Right-distinct-row inner-col
+
+              - Right-distinct-row left-distinct-col
+
+              - Right-distinct-row left-not-distinct-col
+
+              - Right-distinct-row outer-col
+
+              - Right-not-distinct-row inner-col
+
+              - Right-not-distinct-row left-distinct-col
+
+              - Right-not-distinct-row left-not-distinct-col
+
+              - Right-not-distinct-row outer-col
+
+              - Outer-row inner-col
+
+              - Outer-row left-distinct-col
+
+              - Outer-row left-not-distinct-col
+
+              - Outer-row right-distinct-col
+
+              - Outer-row right-not-distinct-col
+
+\subsection{Hail Intermediate Representation (IR)}
+
+    - The Python API constructs IR.
+
+    - Four broad classes of IR: ValueIR, TableIR, MatrixTableIR, BlockMatrixIR
+
+      - Latter three deal with partitioned datasets.
+
+    - IR is repeatedly compiled to further restricted subsets.
+
+      - IR implies the full set
+
+      - LowerMatrixTableIR pass: IR -> IR-MatrixTable
+
+      - LowerBlockMatrix pass: IR -> IR-BlockMatrix
+
+      - LowerTable pass: IR -> IR-Table
+
+    - ValueIR contains one distribution mechanism called CollectDistributedArray
+
+      - CDA has an array of contexts, a global value, and a function from context and global to some type T.
+
+      - Return type is array\<T>.
+
+      - The body is evaluated at least once on each context value.
+
+      - The resulting array contains, in order, the result of evaluating the body on each context.
+
+      - Evaluation of a body on a context value (and global value) is called a "job".
+
+      - Every job must be safe to execute concurrently with other jobs.
+
+        - In particular, two jobs should not write to the same file, so each context should describe a different location to write to.
+
+        - Moreover, multiple jobs may have the same context due to race conditions in the execution system. As such, a short random string is usually appended to each filename and the full filename is returned.
+
+      - Implementation is backend dependent. Spark uses an RDD. Hail Batch uses a Batch.
+
+\subsection{Python Client API is lazy. Operations that force execution are called "actions". Actions include: write, collect, aggregate, and export.}
+
+\subsection{Lifecycle of a query}
+
+    - Client API/DSL generates IR.
+
+    - IR is transmitted from client to driver.
+
+      - In the Spark backend, transmission uses a local HTTP socket between the client and driver processes. We do not use the Py4J socket because it is slow and memory hungry.
+
+      - In the Hail Batch backend, transmission uses cloud object storage as well as a small HTTP request with a cloud object storage URL.
+
+    - Driver iteratively compiles, analyzes, \& optimizes code
+
+      - Compilation steps:
+
+        - Compile MatrixTableIR (now only: BlockMatrixIR, TableIR, ValueIR)
+
+        - Compile BlockMatrixIR (now only: TableIR, ValueIR)
+
+        - Compile TableIR (now only: ValueIR)
+
+      - Analyses and optimizers
+
+        - Type checking
+
+        - Name resolution
+
+        - Constant folding
+
+        - Predicate pushdown
+
+        - Column pruning
+
+        - Inlining
+
+        - Query plan simplification
+
+      - Between each compilation step all analyses \& optimizers are run
+
+    - Driver compiles ValueIR to LIR
+
+      - LIR is a thin layer over JVM Bytecode.
+
+      - LIR has no stack, only registers.
+
+    - Driver splits large LIR methods to avoid JVM method size limitations
+
+    - Driver compiles LIR to JVM Bytecode
+
+    - Driver reflectively loads and executes JVM Bytecode
+
+      - All ValueIR other than CollectDistributedArray are executed on the driver.
+
+      - CollectDistributedArray invokes its body as JVM Bytecode on each context.
+
+        - In the Spark backend, the contexts become RDDPartitions, "globals" are broadcasted values, and the RDD compute method reflectively invokes the body’s JVM Bytecode
+
+        - In the Hail Batch backend, the contexts, globals, and body JVM Bytecode are serialized into cloud storage. One job per context is submitted for execution. When the jobs are complete, the driver concurrently reads each job’s result file.
+
+    - The result is transmitted from the driver to the client.
+
+\subsection{Hail Query architecture}
+
+    - Python client, Driver, Worker.
+
+    - Client to Driver communication is pluggable: Spark and Hail Batch are supported. 
+
+    - Driver to Worker communication depends on the backend. In Hail Batch, all data and code is serialized through cloud object storage.
+
+\subsection{Dataset ordering}
+
+    - Genomics data has a natural row key ordering.
+
+    - Datasets are stored ordered.
+
+    - Joins are always ordered joins.
+
+    - Group by also relies on ordering.
+
+    - Apache Spark’s shuffle operator creates an all-to-all dependency.
+
+      - Every output partition relies on a (possibly empty) set of data from every input partition. 
+
+      - To achieve this, every Spark worker sends a message to every other worker.
+
+      - The probability of the entire shuffle failing is equal to the probability of any one worker failing.
+
+      - Suppose the shuffle operation will take ten minutes and the probability of spot instance preemption is one in 1,000. Even a relatively small 100 VM cluster will fail to shuffle one out of ten times.
+
+      - Shuffles mitigation options are limited:
+
+        - Always use non-spot nodes for 5x to 1.1x additional cost.
+
+        - Be aware of every shuffle and change cluster composition for shuffles.
+
+        - Implement a spot-tolerant shuffle.
+
+    - We simply implemented a spot-tolerant algorithm: a distribution sort.
+
+      - The upstream query is executed and written to object storage.
+
+      - Keys are sampled from the written data.
+
+      - Key intervals are chosen to evenly partition the data.
+
+      - Each source partition is split into at most 64 partitions. This inflates the number of partitions by a factor of at most 64. The maximum number of splits is configurable.
+
+      - Partitions are recursively split until all partitions are smaller than 512MB. This number is configurable.
+
+      - Each partition is sorted and written to cloud object storage.
+
+      - Downstream operations read and concatenate the sorted partitions.
+
+\subsection{Hail at-rest format}
+
+    - Datasets
+
+      - Row-based
+
+      - MatrixTable and Table
+
+      - Partitioned
+
+      - Always have a row key,  matrix tables have a column key too
+
+      - Table has two components: global (no key) data and partitioned row-keyed data
+
+      - MatrixTable has four components:
+
+        - Global (no key) data (e.g. dataset title, date of collection)
+
+        - Row-keyed data. Partitioned.
+
+        - Column-keyed data. Partitioned.
+
+        - Row-and-column-keyed data. Partitioned in the same way as the row-keyed data.
+
+    - Partitions
+
+      - Sequence of records with "continue" flags
+
+      - Has an Index. A BTree from row key to record.
+
+    - Record
+
+      - ETypes and Buffers define the encoding
+
+        - Etypes describe a format for a given data "type". A function from Type -> bytes. E.g. two’s complement integers, IEEE754 binary representation.
+
+        - Buffers describe a format for bytes. A function from bytes -> bytes. E.g. Zstandard.
+
+\subsection{Hail in-memory format}
+
+    - Fundamentally row-oriented. See future work for thoughts on column-oriented formats.
+
+    - Much like Spark’s Tungsten project, we directly use native memory.
+
+    - Primitives use their usual representations.
+
+    - Structs and fixed-size datatypes are laid out contiguously. Variable sized data is stored out of line and a pointer is stored inline.
+
+    - We use region-based memory management which is also known as arena or zone based memory management.
+
+      - Both partitions and individual records make for natural regions.
+
+      - A region is a sequence of 64KiB blocks allocated by malloc and a sequence of "large" blocks which are used for allocations larger than 4KiB.
+
+      - Normal and large blocks are not returned to the OS when a region closes. In particular, rows in a partition tend to have similar allocation patterns so we can typically reuse blocks across multiple rows.
+
+      - For certain workloads, we only call malloc on the first row of a partition.
+
+      - Freeing is O(N\_BLOCKS) rather than O(N\_ALLOCATIONS).
+
+    - Instead of region-based memory management, we reference count ndarrays (numerical vectors, matrices, tensors used in linear algebra).
+
+      - Consider gradient descent.
+
+      - Due to Hail’s choice of immutable data structures, a loop implementing gradient descent cannot mutate a vector or matrix.
+
+      - Instead, IR loops have parameters. Arguments from one iteration are passed as the next iteration’s parameters.
+
+      - Each loop iteration is a region, so loop arguments are copied on each iteration.
+
+      - Profiling suggested we were dominated by copying ndarrays for gradient descents.
+
+      - Reference counted ndarray allocations avoid copying the whole ndarray instead only copying a pointer.
+
+\subsection{Shuffles, transposition, columnar storage are all inter-related}
+
+\section{hailtop.batch}
+
+\subsection{Most workflow systems designed custom languages.}
+
+\subsection{In our experience, scientists are familiar with R and Python.}
+
+\subsection{Exposing an API rather than a language empowers users to build the most-useful-to-them abstractions atop our API.}
+
+\subsection{The simplest batch is the empty batch:}
+
+    import hailtop.batch as hb
+    b = hb.Batch(backend=hb.ServiceBackend())
+    b.run()
+    The next simplest batch is a single job printing hello world:
+    import hailtop.batch as hb
+    b = hb.Batch(backend=hb.ServiceBackend())
+    j = b.create\_job()
+    j.command("echo hello world")
+    b.run()
+
+\subsection{Python is used to automate creation of repetitive jobs.}
+
+\subsection{The lack of higher-level "vector job" abstractions does mean particularly large batches (on the order of 10M jobs) can take tens of minutes to submit.}
+
+\section{Hail Batch}
+
+\subsection{Cost-metered, multi-tenant, spot, elastic, scalable, cloud compute engine.}
+
+\subsection{The smallest unit of the system is a job.}
+
+    - A container image execution. We pervasively assume the existence of bash (or another shell supporting the same semantics).
+
+    - Every job is a member of exactly one batch (described next).
+
+    - Configurable properties:
+
+      - Docker image name
+
+      - Bash script
+
+      - Core-memory ratio (1:7.5, 1:3.75, 1:0.9)
+
+      - Spot-vs-non-spot
+
+      - Disk request
+
+      - "Always Run"
+
+        - Normally a job is canceled if it depends on canceled jobs. "Always Run" jobs when the jobs on which it depends are complete or canceled.
+
+        - These are used to cleanup resources created by previous jobs.
+
+      - Region
+
+        - The cloud-specific region(s) in which a job may execute.
+
+        - Accessing data cross region boundaries is typically non-free.
+
+      - Timeout
+
+        - Maximum runtime of one attempt of the job.
+
+      - Cloudfuse mounts
+
+        - Zero or more buckets to mount using gcsfuse or blobfuse2.
+
+      - Input files
+
+        - A list of cloud storage URLs and local paths to which to download them.
+
+      - Output files
+
+        - A list of local paths and cloud storage URLs to which to upload them.
+
+\subsection{Attempt}
+
+    - Due to network partitions, a job may execute more than once.
+
+    - Each execution has a unique attempt id.
+
+    - Users are charged for every attempt.
+
+\subsection{Batch}
+
+    - A batch contains zero or more jobs.
+
+    - Jobs may depend on zero or more other jobs. There must not be any cycles.
+
+    - A batch is either running, complete, or canceled.
+
+    - A batch starts complete.
+
+    - Jobs only may be added to running or complete batches.
+
+    - A job’s dependencies must be created before it is.
+
+    - Concurrent clients may add jobs to the same batch.
+
+\subsection{Billing project}
+
+    - Every batch is a member of exactly one billing project.
+
+    - Billing projects correspond to a single funded scientific project.
+
+    - Any member of a billing project may view or cancel any batch in that billing project.
+
+\subsection{Database}
+
+    - MySQL database. 4 cores. 16 GiB memory.
+
+    - Three years, >8,000,000 batches, >34,000,000 jobs, \~900 TiB disk.
+
+    - Goals:
+
+      - O(1) API operations: n\_completed jobs in batch, total spend in batch, total spend in billing project, cancel batch.
+
+      - Parallel updates of a job’s information.
+
+      - Consistent view of cost across jobs, batches, and billing projects.
+
+    - What is in it?
+
+      - Batches, VMs, attempts, billing.
+
+      - Job metadata (e.g. dependencies, arbitrary key-value attributes, requested resources) and state (pending, running, canceled).
+
+      - Job commands are stored in cloud storage because the bash script are sometimes large.
+
+    - Rollups
+
+      - The database is a single point of failure and also the main bottleneck.
+
+      - Concurrent inserts or updates to the same row in MySQL either serializes or deadlocks the transactions.
+
+      - In order to allow for parallelism, certain tables have a "token" column which is an integer ranging from 0 to some configurable number, inclusive.
+
+      - Multiple transactions can insert or update rows in parallel.
+
+      - For example, if a user\_job\_states table has an n\_running\_jobs column we would create this table:\
+        CREATE TABLE user\_job\_states (\
+          user\_id INT NOT NULL,\
+          n\_running\_jobs INT NOT NULL DEFAULT 0,\
+          token TINYINT\
+        )\
+        When a job starts running we might execute:\
+        INSERT INTO user\_job\_states (user\_id, n\_running\_jobs, token)\
+        VALUES(1, 1, FLOOR(RAND() \* 200))\
+        ON DUPLICATE KEY UPDATE n\_running\_jobs = n\_running\_jobs + 1\
+        When a job completes we might execute the same query with -1 in place of 1.
+
+      - The probability of collision is given by the birthday problem. 
+
+      - We currently use 200 but this frequently leads to (retryable) deadlocks.
+
+      - Need to balance the cost of aggregation for read against write parallelism.
+
+    - Billing
+
+      - Provides user feedback and informs the cost limiter when a billing project is overspent.
+
+      - Resource use "rolls up" from attempt to job to batch to billing-project-\&-user-\&-date to billing-project-\&-user.
+
+      - MySQL triggers ensure the rollup is recalculated after every database change.
+
+      - All tables use tokens except the attempt and job tables.
+
+    - Active resources
+
+      - Very large batches (e.g. a 10M job batch) cause the auto-scaler to aggressively add machines. We want a canceled batch to immediately stop triggers scale up, so we need O(1) update to the number of pending jobs.
+
+      - The number of pending and running jobs per pool and per-batch-per-pool are stored in tables using tokens.
+
+      - The autoscaler and scheduler use the pending and running jobs per pool.
+
+      - Cancellation updates the per pool table based on the per-batch-per-pool table in O(N\_POOLS) time.
+
+\subsection{Available resources:}
+
+    - Pools
+
+      - Three core to memory (in GiB) ratios: 1:7.5, 1:3.75, 1:0.9.
+
+      - Spot and non-spot.
+
+      - Disk space.
+
+        - In GCP, disks are dynamically attached when more disk is needed.
+
+        - In Azure, large disk requests fail.
+
+    - Private instance
+
+      - Effectively a shim over the underlying VM API.
+
+      - Use-cases
+
+        - A set of jobs otherwise amenable to standard core ratios but needing one initial or final job with a very large RAM ratio.
+
+        - Users wanting GPUs (which are not currently supported in any pool).
+
+\subsection{Architecture}
+
+    - MySQL database is a centralized state store.
+
+    - Front-end is a horizontally scalable HTTP API for submission and monitoring.
+
+    - Driver is a centralized scheduler and autoscaler.
+
+    - Workers are VMs.
+
+    - A separate auth service is a thin layer over cloud IAM.
+
+    - Only relies on three simple, robust, and pervasive cloud APIs: VM, Object Storage, and Container Image Repository. (VERTICAL INTEGRATION!)
+
+\subsection{Single threaded Python driver can manage about 90 completing jobs per second.}
+
+    - When a job completes, a worker sends an HTTP request to the driver.
+
+    - The driver marks the job as complete in the database.
+
+    - To schedule another job, the driver makes an HTTP request to a worker.
+
+    - Scheduler is triggered either once a minute or when a job completes
+
+      - Scheduler fetches a subset of ready jobs from database for each users
+
+      - Cores are shared fairly among all users with ready jobs.
+
+\subsection{90 completing jobs per second}
+
+    - If job latency is normally distributed with mean 5 minutes, then the driver can handle a steady state cluster of 27,000 jobs. If each job uses one core, that’s a \~1,700 VM cluster.
+
+    - Longer mean job latency permits larger clusters.
+
+    - We’ve operated clusters as large as 5,000 16 core VMs.
+
+\subsection{Cost-metering}
+
+    - Due to the cost constraints on science, enforcing cost limits is important. We also do not want to kill a running job before the user exceeds a cost limit.
+
+    - Our approach leaves a lot to be desired but works well enough at our scale.
+
+    - Once a minute, a worker sends an HTTP request informing the driver of the list of still running jobs. In response, the driver updates the total cost for this job, the batch containing the job, and the billing project containing the batch.
+
+    - Every ten seconds the driver looks for billing projects that are overspent. All running batches in an overspent billing project are canceled which kills the running jobs.
+
+    - Assessment:
+
+      - A network partition in principle, allows arbitrary overspend.
+
+      - Under normal conditions, overspend could be as high as:\
+        16 cores \* 70 seconds \* N\_VMs \* usd\_per\_core.
+
+      - Total cost of jobs, batches, and billing projects monotonically increases. The system (and by extension the user) may underestimate cost but never overestimates it.
+
+      - In practice, overspend is usually less than a few dollars and limits are thousands of dollars.
+
+\subsection{Multi-tenant}
+
+    - Each user job runs in an OCI container started by crun using cgroupsv2.
+
+    - Each job is in a private network. CPU is controlled by cpu.weight. Memory is controlled by memory.max and memory.high. Swap is prohibited.
+
+    - Multi-tenancy both mitigates fragmentation (instead of two isolated users fragmenting their own clusters, the users share a single less fragmented cluster) and reduces latency for small \& fast jobs (because, in practice, clusters are often fragmented).
+
+\subsection{Spot tolerant}
+
+    - A user’s job runs to completion at least once.
+
+    - Users must write jobs which are idempotent. The Hail Python API facilitates downloading inputs, computing on local files, and then uploading results, which ensures that jobs that do not mutate external resources are idempotent.
+
+\subsection{Elasticity}
+
+    - Every fifteen seconds, the driver calculates the demanded cores by region by pool by user and starts new instances to meet demand.
+
+    - There are two scarce resources: cores already leased from the cloud and VM creation operations. The latter is limited by cloud-imposed limits on VM creation operations per minute.
+
+    - The driver fairly shares these scarce resources across all users accounting for both jobs ready to run and jobs already running.
+
+\section{Hail’s tenets}
+
+\subsection{Pervasive preference for spot instances}
+
+\subsection{Vertical integration: Only rely on slow moving extremely robust third parties (e.g. the Linux kernel)}
+
+\subsection{Scientists must not be subjected to operational work (cite Occupy the Cloud)}
+
+\subsection{Client-Driver-Worker, adopted from PySpark, leverages the cloud but preserves the highly customizable local environment when data is small (i.e. transferred to the client).}
+
+\subsection{Dataframes uber alles, SQL is not well suited to the needs of scientists (cite query languages for hep paper)}
+
+\subsection{The only durable storage is cloud object storage.}
+
+\section{Funding \& Organizational Challenges}
+
+\subsection{Contributions require caching in immense knowledge of the system, in practice we see few open source contributions.}
+
+\subsection{Pharma and BioTech companies use and benefit from the system, but, as of publishing, none have contributed engineering resources or funding.}
+
+\subsection{Elemental was shutdown due to lack of support for the developers}
+
+\section{Qualitative impact on science}
+
+\subsection{Hail Query and the Hail VDS (cite preprint) have been used to combine as many as 955,000 exomes (cite gnomAD v4) and 350,000 genomes (cite All of Us Echo release) into analysis-ready VDSes. Exomes or genomes are sequenced and aligned per-sample. Tertiary analysis prefers a variant-major (aka feature-major) dataset; therefore, producing a VDS from sequences is essentially a very large matrix transpose. See (cite preprint) for details on this process and the VDS format.}
+
+\subsection{Hail Query (historically atop the Apache Spark backend, but work is shifting to the Hail Batch backend) has powered the analysis of several large sequencing studies including Centers for Common Disease Genomics, gnomAD v2, v3, and v4, All of Us 2023 Data Freeze, Schizophrenia Exome Sequencing Meta-analysis. In all, the repository, github.com/hail-is/hail has been cited 180 times.}
+
+\subsection{Hail Batch enabled a multi-ancestry analysis of 7,221 phenotypes, across six continental ancestry groups, for a total 16,119 genome-wide association studies, each study regressing the phenotypes against 30 million genomic loci. This required executing twelve million jobs across a cluster of 80,000 cores totalling over four million core-hours.}
+
+\subsection{Hail Batch provides a qualitatively different experience to users than competing workflow systems. One user had this to say:}
+
+    I had to present today and wouldn't have been able to if Hail Batch hadn't processed all 3,100 genomes in <1hr total which was more than 10x faster than my previous setup. It literally took me less time to learn Hail Batch, port the workflow to it, and have it run on all data than it took to wait for it to finish elsewhere. I was calling tandem repeat expansions, so we now have some candidate diagnoses to pursue.
+    The development experience is also incomparably better with local mode and Python tooling.
+    All around, this feels like a game changer.
+
+\section{Quantitative evaluation}
+
+\subsection{Single threaded}
+
+    - Table decoding
+
+      - I expect at least 50MiB/s.
+
+      - Not great but a 16-core VM can manage 6.4 gigabits, \~60\% of 10gb
+
+    - Matrix table decoding
+
+    - VDS decoding
+
+    - Table \& matrix table sorting
+
+    - Linear regression rows
+
+    - Table group-by-aggregate
+
+    - gnomAD frequency calculations
+
+\subsection{Multi-threaded}
+
+    - As above.
+
+\section{Quantitative and Qualitative Comparisons}
+
+\subsection{MySQL (as a representative of the traditional RDBMS)}
+
+\subsection{sqllite}
+
+\subsection{BigQuery}
+
+\subsection{Apache Spark}
+
+    - Designed for non-spot instances; ergo, fundamentally not cloud native.
+
+    - Users must either operate their own cluster or use a proprietary serverless Spark platform (e.g. Dataproc Serverless, EMR Serverless).
+
+\subsection{DuckDB}
+
+\subsection{AWS Fargate}
+
+\subsection{Cloud Run}
+
+\subsection{Azure Functions}
+
+\subsection{Numpywren}
+
+\subsection{Ibis}
+
+    - Their Python API/DSL looks more like ours
+
+\section{Future Work}
+
+\subsection{import/export Arrow for zero-transcoding data transfer from one process to another.}
+
+\subsection{Columnar storage}
+
+    - 50 MiB/s is peak single-threaded decode speed, largely due to the amount of instructions necessary to decode, for example, variable length integers or homogeneous arrays of structures.
+
+    - Columnar storage should enable much higher bandwidth decoding and encoding.
+
+    - Pipelines only reading the genotype field (typically 4 bytes out of 10s) tend to be bottlenecked by the network due to the vast amount of unnecessary data.
+
+    - Repetitive fields should benefit from run-length compression.
+
+\subsection{Vectorized processing}
+
+\subsection{Replace SQL database}
+
+    - Bad things:
+
+      - Token scheme required to allow parallel updates to hot rows
+
+      - Must write in MySQL SQL rather than Python, C++, or Java.
+
+      - No event queue or other way to notify another process of changes.
+
+    - Not sure what’s better though.
+
+\subsection{Tighter cost controls}
+
+    - A better solution would have each worker lease, say, five minutes worth of the cost of a job.
+
+    - Ensures no overspend but would sometimes cancel or prevent from running an otherwise acceptably costing job.
+
+CollectDistributedArray should support dependencies between contexts. This allows for DAGs necessary to express distributed linear algebra (cite numpywren).
+
+A "distinctly keyed" dataset is one where there is at most one row per key value. Hail often works with foreign files and thus has no statistics about the keys. Moreover, Hail does a poor job of opportunistically tracking this information. In theory this information admits faster joins (once a key is processed it is done) and permits warning a user that Hail’s default "left join, distinct" join will elide information in the right-hand-side table.
+
+Add TableMaterialize, MatrixTableMaterialize, BlockMatrixMaterialize nodes. These nodes are explicit statements that computing the dataset should be "cheap". The query planner is free to either implement these as a write-read to temporary storage or to eliminate them entirely. Moreover, the query plan can choose encodings best suited for a write-once-read-once.
+
+    - For example, sorting a partitioned dataset requires sampling the new keys and then distributing the data into new partitions. In order to avoid computing the upstream query twice, sort explicitly writes the dataset. For computationally cheap queries, the cost of I/O dominates. In this regime, reading, writing, and finally reading twice is twice as slow as just reading twice.
+
+\subsection{Faster storage.}
+
+    - Cloud storage is impressively scalable but cannot rapidly serve a single large object to 5,000 VMs.
+
+    - Container image pulling suffers similar problems.
+
+    - Cloud storage operations are not free.
+
+    - We want to use a fast read-through cache for objects read by large numbers of Hail Query partitions.
+
+\subsection{Container image extraction is also shockingly slow.}
+
+    - We would like to use a pre-extracted format amenable to lazy loading.
+
+    - Perhaps a torrent style distribution system.
+
+\section{Acknowledgments}
+
+\subsection{NEU: DVH, Olin, Matthias, Aaron Turon, Dimitrios Vardoulakis, Dee, others?}
+
+\subsection{Harvard: Steve, Greg, Eddie, Scott, Dan, Andrew, others?}
+
+\subsection{Broad: Ben, Cotton, Mark, DMac, Hail team past and present, Konrad, KC, gnomAD, Andrea G, AUS, Michael F, Leo G, others?}
+
+\subsection{Funders: MSFT, Wertheimer, Stanley, NIH(?), NHGRI(?), others?}
+
+\section{Figures}
+
+\subsection{Job <- Batch <- billing project}
+
+\subsection{VDS}
+
+Two MTs, one with column-sparse reference block runs and one with row-sparse variants
+
+\subsection{MT}
+
+The four pieces
+
+\subsection{hailtop.batch example}
